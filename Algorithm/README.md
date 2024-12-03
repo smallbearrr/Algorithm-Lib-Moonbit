@@ -1,1 +1,0 @@
-# smallbearrr/algorithm
