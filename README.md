@@ -1,2 +1,2 @@
-# Algorithm_Lib-moonbit
+# Algorithm-Lib-Moonbit
 Algorithm Library of moonbit
