@@ -1,4 +1,6 @@
 {
   "is-main": true,
-  "import": []
+  "import": [
+    "smallbearrr/algorithm/lib/algorithm"
+  ]
 }
