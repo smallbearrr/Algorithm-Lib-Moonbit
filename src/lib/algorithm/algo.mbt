@@ -10,6 +10,11 @@
 /// # Returns
 /// 
 /// - `T` : maximum value
+/// 
+/// # Example
+/// ```
+/// max(1, 2) -> 2
+/// ```
 pub fn max[T : Compare](a : T, b : T) -> T { if a > b {a} else {b} }
 
 /// Minimum value
@@ -22,6 +27,11 @@ pub fn max[T : Compare](a : T, b : T) -> T { if a > b {a} else {b} }
 /// # Returns
 /// 
 /// - `T` : minimum value
+/// 
+/// # Example
+/// ```
+/// min(1, 2) -> 1
+/// ```
 pub fn min[T : Compare](a : T, b : T) -> T { if a < b {a} else {b} }
 
 
@@ -34,7 +44,20 @@ pub fn min[T : Compare](a : T, b : T) -> T { if a < b {a} else {b} }
 /// # Returns
 /// 
 /// - `T` : maximum value in array
+/// 
+/// # Example
+/// ```
+/// test "max_element" {
+///   let arr = [1,2,3,4,5]
+///   inspect!(@algorithm.max_element(arr), content="5")
+///   let arr = [1.1,2.4,3.9,4,5.9,1.0]
+///   inspect!(@algorithm.max_element(arr), content="5.9")
+/// }
+/// ```
 pub fn max_element[T : Compare](data : Array[T]) -> T {
+  if data.length() == 0 {
+    abort("Empty array")
+  }
   data.fold(init = data[0], fn(mx, x) {if x > mx {x} else {mx}})
 }
 
@@ -48,7 +71,20 @@ pub fn max_element[T : Compare](data : Array[T]) -> T {
 /// # Returns
 /// 
 /// - `T` : minimum value in array
+/// 
+/// # Example
+/// ```
+/// test "min_element" {
+///   let arr = [1,2,3,4,5]
+///   inspect!(@algorithm.min_element(arr), content="1")
+///   let arr = [1.1,2.4,3.9,4,5.9,1.2]
+///   inspect!(@algorithm.min_element(arr), content="1.1")
+/// }
+/// ```
 pub fn min_element[T : Compare](data : Array[T]) -> T {
+  if data.length() == 0 {
+    abort("Empty array")
+  }
   data.fold(init = data[0], fn(mx, x) {if x < mx {x} else {mx}})
 }
 
@@ -66,6 +102,15 @@ pub fn min_element[T : Compare](data : Array[T]) -> T {
 /// 
 /// - `Int` : first index in array that not less than value
 /// 
+/// /// # Example
+/// ```
+/// test "lower_bound" {
+///   let arr = [1,2,3,4,5]
+///   inspect!(@algorithm.lower_bound(arr, 7), content="5")
+///   let arr = [1.1, 2, 3.5, 9]
+///   inspect!(@algorithm.lower_bound(arr, 1.2), content="1")
+///  }
+/// ```
 pub fn lower_bound[T : Compare](data : Array[T], value : T) -> Int {
   let mut count = data.length()
   let mut first = 0
@@ -95,6 +140,14 @@ pub fn lower_bound[T : Compare](data : Array[T], value : T) -> Int {
 /// 
 /// - `Int` : first index in array that bigger than value
 /// 
+/// # Example
+/// ```
+/// test "upper_bound" {
+///   let arr = [1,2,3,4,5]
+///   inspect!(@algorithm.upper_bound(arr, -1), content="0")
+///   inspect!(@algorithm.upper_bound(arr, 7), content="5")
+/// }
+/// ```
 pub fn upper_bound[T : Compare](data : Array[T], value : T) -> Int {
   let mut count = data.length()
   let mut first = 0
@@ -124,6 +177,14 @@ pub fn upper_bound[T : Compare](data : Array[T], value : T) -> Int {
 /// 
 /// - `Bool` : value in or not in array
 /// 
+/// # Example
+/// ```
+/// test "binary_search" {
+///   let arr = [1,2,3,4,5]
+///   inspect!(@algorithm.binary_search(arr, 1), content="true")
+///   inspect!(@algorithm.binary_search(arr, 6), content="false")
+/// }
+/// ```
 pub fn binary_search[T : Compare](data : Array[T], value : T) -> Bool {
   let first = lower_bound(data, value)
   first != data.length() && data[first] == value
@@ -141,6 +202,14 @@ pub fn binary_search[T : Compare](data : Array[T], value : T) -> Bool {
 /// 
 /// - `(Int, Int)` : Range of array equal to value
 ///
+/// # Example
+/// ```
+/// test "equal_range" {
+///   let arr = [1,2,2,2,3,4,5]
+///   inspect!(@algorithm.equal_range(arr, 2), content="(1, 3)")
+///   inspect!(@algorithm.equal_range(arr, 7), content="(-1, -1)")
+/// }
+/// ```
 pub fn equal_range[T : Compare](data : Array[T], value : T) -> (Int, Int) {
   let l = lower_bound(data, value)
   let r = upper_bound(data, value)
@@ -164,6 +233,17 @@ pub fn equal_range[T : Compare](data : Array[T], value : T) -> (Int, Int) {
 /// 
 /// - `Array[T]` : Merged array of data1 and data2
 ///
+/// # Example
+/// ```
+/// test "merge" {
+///   let arr1 = [1,2,5]
+///   let arr2 = [3,4,6]
+///   inspect!(@algorithm.merge(arr1, arr2), content="[1, 2, 3, 4, 5, 6]")
+///   let arr1 = [1,2,3]
+///   let arr2 = [4,5,6]
+///   inspect!(@algorithm.merge(arr1, arr2), content="[1, 2, 3, 4, 5, 6]")
+/// }
+/// ```
 pub fn merge[T : Compare](data1 : Array[T], data2 : Array[T]) -> Array[T] {
   let len1 = data1.length(); let len2 = data2.length()
   let mut res = []
@@ -181,6 +261,37 @@ pub fn merge[T : Compare](data1 : Array[T], data2 : Array[T]) -> Array[T] {
     }
   }
   res.iter().concat(data2[j:].iter()).collect()
+}
+
+///|
+
+/// Fast Exponentiation
+/// 
+/// # Parameters
+/// 
+/// - `base` : base
+/// - `power`: exponent
+/// 
+/// # Returns
+/// 
+/// - `Int64` : value of Power operation
+/// 
+/// # Example
+/// ```
+/// let qpow = quick_pow(2, 10)
+/// ```
+pub fn quick_pow(base : Int, power : Int) -> Int64 {
+  let mut b : Int64 = base.to_int64()
+  let mut p : Int = power
+  let mut ret : Int64 = 1
+  while p != 0 {
+    if (p & 1) != 0 {
+      ret *= b
+    }
+    b *= b
+    p /= 2
+  }
+  ret
 }
 
 

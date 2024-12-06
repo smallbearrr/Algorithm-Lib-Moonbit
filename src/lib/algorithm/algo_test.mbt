@@ -64,3 +64,8 @@ test "merge" {
   let arr2 = [4,5,6]
   inspect!(@algorithm.merge(arr1, arr2), content="[1, 2, 3, 4, 5, 6]")
 }
+
+
+test {
+  inspect!(@algorithm.quick_pow(2,10), content="1024")
+}
