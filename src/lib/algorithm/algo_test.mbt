@@ -66,6 +66,15 @@ test "merge" {
 }
 
 
-test {
+test "quick_pow" {
   inspect!(@algorithm.quick_pow(2,10), content="1024")
+}
+
+test "max_manhattan_distance" { 
+    let arr = [@algorithm.Point::{x:0,y:0}, @algorithm.Point::{x:1,y:0}, @algorithm.Point::{x:1,y:1}]
+    inspect!(@algorithm.max_manhattan_distance(arr), content="2")
+}
+
+test "inv" { 
+    inspect!(@algorithm.inv(2, 1000_000_007), content="500000004")
 }

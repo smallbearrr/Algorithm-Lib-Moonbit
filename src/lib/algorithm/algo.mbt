@@ -280,18 +280,80 @@ pub fn merge[T : Compare](data1 : Array[T], data2 : Array[T]) -> Array[T] {
 /// ```
 /// let qpow = quick_pow(2, 10)
 /// ```
-pub fn quick_pow(base : Int, power : Int) -> Int64 {
+pub fn quick_pow(base : Int, power : Int, mod~ : Int = 1) -> Int64 {
   let mut b : Int64 = base.to_int64()
   let mut p : Int = power
   let mut ret : Int64 = 1
   while p != 0 {
     if (p & 1) != 0 {
-      ret *= b
+      ret = (ret * b) % mod.to_int64()
     }
-    b *= b
+    b = (b * b) % mod.to_int64()
     p /= 2
   }
-  ret
+  ret % mod.to_int64()
+}
+
+pub struct Point {
+  x : Int
+  y : Int
+} derive(Show)
+
+
+/// Calculate max manhattan distance
+/// 
+/// # Parameters
+/// 
+/// - `points` : Points array
+/// 
+/// # Returns
+/// 
+/// - `Int` : max manhattan distance between all points
+/// 
+/// # Example
+/// ```
+/// test "max_manhattan_distance" { 
+///     let arr = [@algorithm.Point::{x:0,y:0}, @algorithm.Point::{x:1,y:0}, @algorithm.Point::{x:1,y:1}]
+///     inspect!(@algorithm.max_manhattan_distance(arr), content="2")
+/// }
+/// ```
+pub fn max_manhattan_distance(points : Array[Point]) -> Int {
+  let mut a = @int.min_value
+  let mut b = @int.max_value
+  let mut c = @int.min_value
+  let mut d = @int.max_value
+
+  for i = 0; i < points.length(); i=i+1 {
+    let x = points[i].x
+    let y = points[i].y
+
+    a = max(a, x+y)
+    b = min(b, x+y)
+    c = max(c, x-y)
+    d = min(d, x-y)
+  }
+  max(a-b, c-d)
+}
+
+/// Calculate Inverse Element
+/// 
+/// # Parameters
+/// 
+/// - `x` : value to calculate inverse
+/// - `mod`
+/// 
+/// # Returns
+/// 
+/// - `Int` : inverse of x
+/// 
+/// # Example
+/// ```
+/// test "inv" { 
+///     inspect!(@algorithm.inv(2, 1000_000_007), content="500000004")
+/// }
+/// ```
+pub fn inv(x : Int, mod : Int) -> Int {
+    quick_pow(x, mod-2, mod=mod).to_int()
 }
 
 
