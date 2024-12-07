@@ -24,6 +24,15 @@ fn update_in(self : Tree[Int], x : Int, val : Int) -> Unit {
 /// 
 /// - `Tree[Int]` : Binary Indexed Tree
 ///
+/// # Example
+/// ```
+/// test {
+///   let arr = [1,2,3,4,5]
+///   let tmp = @binaryIndexedTree.bitTree(arr)
+///   tmp.update(1,5,2)
+///   inspect!(tmp.query(4), content="6")
+/// }
+/// ```
 pub fn update(self : Tree[Int], left : Int, right : Int, val : Int) -> Unit{
   self.update_in(left, val)
   self.update_in(right+1, -val)
@@ -39,6 +48,14 @@ pub fn update(self : Tree[Int], left : Int, right : Int, val : Int) -> Unit{
 /// 
 /// - `Tree[Int]` : Binary Indexed Tree
 ///
+/// # Example
+/// ```
+/// test {
+///   let arr = [1,2,3,4,5]
+///   let tmp = @binaryIndexedTree.bitTree(arr)
+///   inspect!(tmp.query(2), content="2")
+/// }
+/// ```
 pub fn query(self : Tree[Int], x : Int) -> Int {
   let mut res : Int = 0
   for i = x; i >= 1; i = i-lowbit(i) {
@@ -57,6 +74,10 @@ pub fn query(self : Tree[Int], x : Int) -> Int {
 /// 
 /// - `Tree[Int]` : Binary Indexed Tree
 ///
+/// # Example
+/// ```
+/// @binaryIndexedTree.bitTree(arr)
+/// ```
 pub fn bitTree(data : Array[Int]) -> Tree[Int] {
   let sz = data.length()
   let tr = Array::make(sz+2, 0)
