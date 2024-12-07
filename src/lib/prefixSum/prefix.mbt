@@ -8,6 +8,7 @@ enum Prefix2d {
   Pre(pre~ : Array[Array[Int]], n~ : Int, m~ : Int)
 } derive(Show)
 
+// make prefix for 1 dimension
 fn prefix1d(data : Array[Int]) -> Array[Int] {
   let n = data.length()
   let ret = Array::make(n + 1, 0)
@@ -18,6 +19,7 @@ fn prefix1d(data : Array[Int]) -> Array[Int] {
   ret
 }
 
+// make prefix for 2 dimension
 fn prefix2d(data : Array[Array[Int]]) -> Array[Array[Int]] {
   let n = data.length()
   let m = data[0].length()
@@ -49,6 +51,14 @@ fn prefix2d(data : Array[Array[Int]]) -> Array[Array[Int]] {
 /// 
 /// - `Int` : Sum of intervals
 ///
+/// # Example
+/// ```
+/// test {
+///   let a1 = [1, 2, 3, 4, 5, 6 , 1, 2]
+///   let pre1 = @prefixSum.make_prefix1d(a1)
+///   inspect!(pre1.sum(2,4), content="9")
+/// }
+/// ```
 pub fn sum(self : Prefix1d, left : Int, right : Int) -> Int {
   guard let Prefix1d::Pre(pre = pre, n = n) = self
   if left < 1 || left > n || right > n || right < 1 || left > right{
@@ -67,6 +77,11 @@ pub fn sum(self : Prefix1d, left : Int, right : Int) -> Int {
 /// 
 /// - `Prefix1d`
 ///
+/// # Example
+/// ```
+/// let arr = [1, 2, 3, 4]
+/// let prefix = make_prefix1d(arr)
+/// ```
 pub fn make_prefix1d(data : Array[Int]) -> Prefix1d {
   match (data.length()) {
     (0) => Nil
@@ -91,6 +106,14 @@ pub fn make_prefix1d(data : Array[Int]) -> Prefix1d {
 /// 
 /// - `Int` : Sum of intervals
 ///
+/// # Example
+/// ```
+/// test {
+///   let a2 = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+///   let pre2 = @prefixSum.make_prefix2d(a2)
+///   inspect!(pre2.sum(2,2,3,3), content="34")
+/// }
+/// ```
 pub fn sum(self : Prefix2d, x1 : Int, y1 : Int, x2 : Int, y2 : Int) -> Int {
   guard let Prefix2d::Pre(pre = pre, n = n, m = m) = self
   if x1 < 1 || y1 < 1 || x2 > n || y2 > m || x2 < x1 || y2 < y1 {
@@ -109,6 +132,11 @@ pub fn sum(self : Prefix2d, x1 : Int, y1 : Int, x2 : Int, y2 : Int) -> Int {
 /// 
 /// - `Prefix2d`
 ///
+/// # Example
+/// ```
+/// let arr = [[1,2,3],[5,6,7],[9,10,11]]
+/// let prefix = make_prefix2d(arr)
+/// ```
 pub fn make_prefix2d(data : Array[Array[Int]]) -> Prefix2d {
   match (data.length()) {
     (0) => Nil

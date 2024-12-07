@@ -13,6 +13,11 @@ struct ST {
 /// 
 /// - `ST` : Sparse Table
 ///
+/// # Example
+/// ```
+/// let arr = [1,2,3,4,5,6,1,2]
+/// let st = @st.st(arr)
+/// ```
 pub fn st(data : Array[Int]) -> ST {
   let n = data.length()
   let range:Int = @math.log2(n.to_double()).to_int() + 1
@@ -40,6 +45,15 @@ pub fn st(data : Array[Int]) -> ST {
 /// 
 /// - `Tree[Int]` : Binary Indexed Tree
 ///
+/// # Example
+/// ```
+/// test {
+///   let arr = [1,2,3,4,5,6,1,2]
+///   let st= @st.st(arr)
+///   inspect!(st.max_elem(1, 1), content="1")
+///   inspect!(st.max_elem(2, 8), content="6")
+/// }
+/// ```
 pub fn max_elem(self : ST, left : Int, right : Int) -> Int {
   if right < left {
     abort("Invalid range.")
