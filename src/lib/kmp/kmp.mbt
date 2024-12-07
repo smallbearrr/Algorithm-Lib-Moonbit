@@ -1,3 +1,4 @@
+// get next array
 fn getNext(t : String) -> Array[Int] {
   let n = t.length()
   let mut k = 0
@@ -67,6 +68,7 @@ pub fn kmp(s : String, t : String) -> Array[Int] {
   pos
 }
 
+// get z array of s
 fn get_z(s : String) -> Array[Int] {
   let n = s.length()
   let mut l = 0
@@ -86,6 +88,27 @@ fn get_z(s : String) -> Array[Int] {
   z
 }
 
+
+/// Z function (maximum PLC)
+/// 
+/// # Parameters
+/// 
+/// - `s` : text string
+/// - `t~` : pattern string
+/// 
+/// # Returns
+/// 
+/// - `Array[Int]` : z function of (s) or (t for s)
+///
+/// # Example
+/// ```
+/// test "z_func" {
+///   let a = "aaaabaa"
+///   let b = "aaaaa"
+///   inspect!(@kmp.z_func(b), content="[5, 4, 3, 2, 1]")
+///   inspect!(@kmp.z_func(b, t = a), content="[4, 3, 2, 1, 0, 2, 1]")
+/// }
+/// ```
 pub fn z_func(s : String, t~ : String = "") -> Array[Int] {
   let z : Array[Int] = get_z(s)
   match t {
@@ -93,12 +116,12 @@ pub fn z_func(s : String, t~ : String = "") -> Array[Int] {
     _ => {
       let n = s.length()
       let m = t.length()
-      let q = Array::make(m+1, 0)
+      let q = Array::make(m, 0)
       let mut l = 0
       let mut r = -1
-      for i = 0; i < m; i=i+1 {
+      for i = 0; i < m ; i=i+1 {
         if i <= r {
-          q[i] = @algorithm.min(z[i-1], r-i+1)
+          q[i] = @algorithm.min(z[i-l], r-i+1)
         }
         while q[i] < n && i+q[i] < m && s[q[i]] == t[i+q[i]] { q[i] += 1 }
         if i+q[i]-1 > r {
@@ -111,9 +134,3 @@ pub fn z_func(s : String, t~ : String = "") -> Array[Int] {
   }
 }
 
-test "z_func" {
-  let a = "aaaabaa"
-  let b = "aaaaa"
-  inspect!(z_func(b), content="[5, 4, 3, 2, 1]")
-  // inspect!(z_func(b, t = a), content="[4, 3, 2, 1, 0, 2, 1]")
-}
