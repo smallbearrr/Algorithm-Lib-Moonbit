@@ -294,7 +294,7 @@ pub fn quick_pow(base : Int, power : Int, mod~ : Int = 1) -> Int64 {
   ret % mod.to_int64()
 }
 
-pub struct Point {
+pub(all) struct Point {
   x : Int
   y : Int
 } derive(Show)
